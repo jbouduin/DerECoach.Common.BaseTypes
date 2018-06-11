@@ -6,16 +6,20 @@ using System.Runtime.Serialization;
 namespace DerECoach.Common.BaseTypes
 {
     /// <summary>
-    /// 
+    /// Result class that can be used as return value for methods containing the result. The class is serializable.
+    /// A Failure Result always has a Message
     /// </summary>
     /// <typeparam name="TReason">The type of Reason that will be used</typeparam>
     /// <typeparam name="TContext">The type of Context that will be used</typeparam>
-    /// <typeparam name="TValue">The actual function result to be returned from the function</typeparam>
+    /// <typeparam name="TValue">The actual method result to be returned from the method</typeparam>
     [DataContract]
     public class Result<TReason, TContext, TValue> : Result<TReason, TContext>
     {
         #region datamember properties -----------------------------------------
 
+        /// <summary>
+        /// The return value of the method returning the result
+        /// </summary>
         [DataMember]
         public TValue Value { get; set; }
 

@@ -6,7 +6,8 @@ using System.Runtime.Serialization;
 namespace DerECoach.Common.BaseTypes
 {
     /// <summary>
-    /// Result class that can be used as return value for functions.
+    /// Result class that can be used as return value for methods instead of creating void methods. The class is serializable.
+    /// A Failure Result always has a Message
     /// </summary>
     /// <typeparam name="TReason">The type of Reason that will be used</typeparam>
     /// <typeparam name="TContext">The type of Context that will be used</typeparam>
@@ -15,24 +16,42 @@ namespace DerECoach.Common.BaseTypes
     {
         #region datamember properties -----------------------------------------
 
+        /// <summary>
+        /// A boolean flag indicating that the result is a success
+        /// </summary>
         [DataMember]
         public bool Succeeded { get; set; }
 
+        /// <summary>
+        /// The reason of the failure
+        /// </summary>
         [DataMember]
         public TReason FailureReason { get; set; }
 
+        /// <summary>
+        /// The result message. If the result is a failure, this message is mandatory.
+        /// </summary>
         [DataMember]
         public string Message { get; set; }
 
+        /// <summary>
+        /// The Error level message
+        /// </summary>
         [DataMember]
         public EMessageLevel MessageLevel { get; set; }
-
+        
+        /// <summary>
+        /// The context in which the error occurred
+        /// </summary>
         [DataMember]
         public TContext FailureContext { get; set; }
 
         #endregion
 
         #region properties ----------------------------------------------------
+        /// <summary>
+        /// A boolean flag indicating that the result is a failure
+        /// </summary>
         public bool Failed
         {
             get { return !Succeeded; }
@@ -53,12 +72,19 @@ namespace DerECoach.Common.BaseTypes
         #endregion
 
         #region factory methods -----------------------------------------------
-
+        /// <summary>
+        /// Factory method to create a success Result
+        /// </summary>
+        /// <returns></returns>
         public static Result<TReason, TContext> Success()
         {
             return new Result<TReason, TContext>();
         }
 
+        /// <summary>
+        /// Factory method to create a success Result with message and messagelevel
+        /// </summary>
+        /// <returns></returns>
         public static Result<TReason, TContext> Success(string message, EMessageLevel messageLevel)
         {
             return new Result<TReason, TContext>
@@ -68,6 +94,10 @@ namespace DerECoach.Common.BaseTypes
             };
         }
 
+        /// <summary>
+        /// Factory method to create a failure Result
+        /// </summary>
+        /// <returns></returns>
         public static Result<TReason, TContext> Failure(string message)
         {
             return new Result<TReason, TContext>
@@ -78,6 +108,10 @@ namespace DerECoach.Common.BaseTypes
             };
         }
 
+        /// <summary>
+        /// Factory method to create a failure Result
+        /// </summary>
+        /// <returns></returns>
         public static Result<TReason, TContext> Failure(TReason failureReason, string message)
         {
             return new Result<TReason, TContext>
@@ -89,6 +123,10 @@ namespace DerECoach.Common.BaseTypes
             };
         }
 
+        /// <summary>
+        /// Factory method to create a failure Result
+        /// </summary>
+        /// <returns></returns>
         public static Result<TReason, TContext> Failure(TReason failureReason,
             TContext failureContext, string message)
         {
