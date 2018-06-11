@@ -59,5 +59,15 @@ namespace DerECoach.Common.BaseTypes
         {
             return value.ToString(string.Format("yyyy{0}MM{0}dd HH{1}mm{1}ss", dateSeparator, timeSeparator));
         }
+
+        /// <summary>
+        /// Returns true if the given date is on saturday on sunday
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <returns></returns>
+        public static bool IsWeekendDay(this DateTime dateTime)
+        {
+            return dateTime.DayOfWeek == DayOfWeek.Saturday || dateTime.DayOfWeek == DayOfWeek.Sunday;
+        }
     }
 }
