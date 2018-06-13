@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F0A9F50F-AE65-45B5-9913-3C4B15011D3F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DerECoach.Common.BaseTypes</RootNamespace>
+    <AssemblyName>DerECoach.Common.BaseTypes</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Runtime.Serialization" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\shared\DerECoach.Common.BaseTypes\APropertyChangedNotifier.cs">
+      <Link>APropertyChangedNotifier.cs</Link>
+    </Compile>
+    <Compile Include="..\..\shared\DerECoach.Common.BaseTypes\APropertyChangedNotifierWithTracking.cs">
+      <Link>APropertyChangedNotifierWithTracking.cs</Link>
+    </Compile>
+    <Compile Include="..\..\shared\DerECoach.Common.BaseTypes\ClassExtensions.cs">
+      <Link>ClassExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\shared\DerECoach.Common.BaseTypes\DateTimeExtensions.cs">
+      <Link>DateTimeExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\shared\DerECoach.Common.BaseTypes\EMessageLevel.cs">
+      <Link>EMessageLevel.cs</Link>
+    </Compile>
+    <Compile Include="..\..\shared\DerECoach.Common.BaseTypes\EnumerableExtensions.cs">
+      <Link>EnumerableExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\shared\DerECoach.Common.BaseTypes\EnumExtensions.cs">
+      <Link>EnumExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\shared\DerECoach.Common.BaseTypes\ExceptionExtensions.cs">
+      <Link>ExceptionExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\shared\DerECoach.Common.BaseTypes\ExpressionExtensions.cs">
+      <Link>ExpressionExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\shared\DerECoach.Common.BaseTypes\FieldInfoExtensions.cs">
+      <Link>FieldInfoExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\shared\DerECoach.Common.BaseTypes\IntExtensions.cs">
+      <Link>IntExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\shared\DerECoach.Common.BaseTypes\NotifyPropertyChangedExtensions.cs">
+      <Link>NotifyPropertyChangedExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\shared\DerECoach.Common.BaseTypes\NullableExtensions.cs">
+      <Link>NullableExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\shared\DerECoach.Common.BaseTypes\ObjectExtensions.cs">
+      <Link>ObjectExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\shared\DerECoach.Common.BaseTypes\Properties\VersionInfo.cs">
+      <Link>Properties\VersionInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\shared\DerECoach.Common.BaseTypes\PropertyInfoExtensions.cs">
+      <Link>PropertyInfoExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\shared\DerECoach.Common.BaseTypes\Result.cs">
+      <Link>Result.cs</Link>
+    </Compile>
+    <Compile Include="..\..\shared\DerECoach.Common.BaseTypes\Result.WithValue.cs">
+      <Link>Result.WithValue.cs</Link>
+    </Compile>
+    <Compile Include="..\..\shared\DerECoach.Common.BaseTypes\StringExtensions.cs">
+      <Link>StringExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\shared\DerECoach.Common.BaseTypes\TaskExtensions.cs">
+      <Link>TaskExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\shared\DerECoach.Common.BaseTypes\TypeExtensions.cs">
+      <Link>TypeExtensions.cs</Link>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

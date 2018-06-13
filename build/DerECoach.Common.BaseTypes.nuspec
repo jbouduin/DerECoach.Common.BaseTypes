@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>DerECoach.Common.BaseTypes</id>
+    <version>0.0.1</version>
+    <authors>der e-coach</authors>
+    <licenseUrl>http://develop.der-e-coach.de/license.html</licenseUrl>
+    <projectUrl>http://develop.der-e-coach.de</projectUrl>
+    <iconUrl>http://www.der-e-coach.de/fav.ico</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Common basetypes and a lot of extension methods</description>
+    <summary>Common basetypes and a lot of extension methods</summary>
+    <language>en-US</language>
+  </metadata>
+  <files>
+    <file src="..\output\build\readme.txt" target="" />
+    <file src="..\output\build\lib\**" target="lib" />
+  </files>
+</package>
+

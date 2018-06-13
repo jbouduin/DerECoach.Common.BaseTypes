@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <AssemblyVersion>1.0.0.1</AssemblyVersion>
+    <FileVersion>0.0.0.1</FileVersion>
+    <Version>0.0.1</Version>
+    <Authors>der e-coach</Authors>
+    <Company>der e-coach</Company>
+    <Copyright>der e-coach</Copyright>
+    <Configurations>Debug;Release</Configurations>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\..\shared\DerECoach.Common.BaseTypes\APropertyChangedNotifier.cs" Link="APropertyChangedNotifier.cs" />
+    <Compile Include="..\..\shared\DerECoach.Common.BaseTypes\APropertyChangedNotifierWithTracking.cs" Link="APropertyChangedNotifierWithTracking.cs" />
+    <Compile Include="..\..\shared\DerECoach.Common.BaseTypes\ClassExtensions.cs" Link="ClassExtensions.cs" />
+    <Compile Include="..\..\shared\DerECoach.Common.BaseTypes\DateTimeExtensions.cs" Link="DateTimeExtensions.cs" />
+    <Compile Include="..\..\shared\DerECoach.Common.BaseTypes\EMessageLevel.cs" Link="EMessageLevel.cs" />
+    <Compile Include="..\..\shared\DerECoach.Common.BaseTypes\EnumerableExtensions.cs" Link="EnumerableExtensions.cs" />
+    <Compile Include="..\..\shared\DerECoach.Common.BaseTypes\EnumExtensions.cs" Link="EnumExtensions.cs" />
+    <Compile Include="..\..\shared\DerECoach.Common.BaseTypes\ExceptionExtensions.cs" Link="ExceptionExtensions.cs" />
+    <Compile Include="..\..\shared\DerECoach.Common.BaseTypes\ExpressionExtensions.cs" Link="ExpressionExtensions.cs" />
+    <Compile Include="..\..\shared\DerECoach.Common.BaseTypes\FieldInfoExtensions.cs" Link="FieldInfoExtensions.cs" />
+    <Compile Include="..\..\shared\DerECoach.Common.BaseTypes\IntExtensions.cs" Link="IntExtensions.cs" />
+    <Compile Include="..\..\shared\DerECoach.Common.BaseTypes\NotifyPropertyChangedExtensions.cs" Link="NotifyPropertyChangedExtensions.cs" />
+    <Compile Include="..\..\shared\DerECoach.Common.BaseTypes\NullableExtensions.cs" Link="NullableExtensions.cs" />
+    <Compile Include="..\..\shared\DerECoach.Common.BaseTypes\ObjectExtensions.cs" Link="ObjectExtensions.cs" />
+    <Compile Include="..\..\shared\DerECoach.Common.BaseTypes\PropertyInfoExtensions.cs" Link="PropertyInfoExtensions.cs" />
+    <Compile Include="..\..\shared\DerECoach.Common.BaseTypes\Result.cs" Link="Result.cs" />
+    <Compile Include="..\..\shared\DerECoach.Common.BaseTypes\Result.WithValue.cs" Link="Result.WithValue.cs" />
+    <Compile Include="..\..\shared\DerECoach.Common.BaseTypes\StringExtensions.cs" Link="StringExtensions.cs" />
+    <Compile Include="..\..\shared\DerECoach.Common.BaseTypes\TaskExtensions.cs" Link="TaskExtensions.cs" />
+    <Compile Include="..\..\shared\DerECoach.Common.BaseTypes\TypeExtensions.cs" Link="TypeExtensions.cs" />
+  </ItemGroup>
+</Project>
