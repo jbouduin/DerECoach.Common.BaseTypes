@@ -86,9 +86,6 @@
     <Compile Include="..\..\shared\DerECoach.Common.BaseTypes\Result.cs">
       <Link>Result.cs</Link>
     </Compile>
-    <Compile Include="..\..\shared\DerECoach.Common.BaseTypes\Result.WithValue.cs">
-      <Link>Result.WithValue.cs</Link>
-    </Compile>
     <Compile Include="..\..\shared\DerECoach.Common.BaseTypes\StringExtensions.cs">
       <Link>StringExtensions.cs</Link>
     </Compile>
@@ -98,7 +95,14 @@
     <Compile Include="..\..\shared\DerECoach.Common.BaseTypes\TypeExtensions.cs">
       <Link>TypeExtensions.cs</Link>
     </Compile>
+    <Compile Include="IResult.cs" />
+    <Compile Include="IResultFactory.cs" />
+    <Compile Include="IValueResult.cs" />
+    <Compile Include="IValueResultFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResultFactory.cs" />
+    <Compile Include="ValueResult.cs" />
+    <Compile Include="ValueResultFactory.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

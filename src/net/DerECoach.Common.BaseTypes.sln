@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27703.2018
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DerECoach.Common.BaseTypes", "DerECoach.Common.BaseTypes\DerECoach.Common.BaseTypes.csproj", "{F0A9F50F-AE65-45B5-9913-3C4B15011D3F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DerECoach.Common.BaseTypes.Specs", "DerECoach.Common.BaseTypes.Specs\DerECoach.Common.BaseTypes.Specs.csproj", "{CD20D10E-E195-4B67-99CF-2B397174F84D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{F0A9F50F-AE65-45B5-9913-3C4B15011D3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F0A9F50F-AE65-45B5-9913-3C4B15011D3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F0A9F50F-AE65-45B5-9913-3C4B15011D3F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD20D10E-E195-4B67-99CF-2B397174F84D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD20D10E-E195-4B67-99CF-2B397174F84D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD20D10E-E195-4B67-99CF-2B397174F84D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD20D10E-E195-4B67-99CF-2B397174F84D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

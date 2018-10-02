@@ -12,43 +12,28 @@ namespace DerECoach.Common.BaseTypes
     /// <typeparam name="TReason">The type of Reason that will be used</typeparam>
     /// <typeparam name="TContext">The type of Context that will be used</typeparam>
     [DataContract]
-    public class Result<TReason, TContext>
+    internal class ResultEx<TReason, TContext> : IResultEx<TReason, TContext>
     {
-        #region datamember properties -----------------------------------------
-
+        #region datamember properties -----------------------------------------        
         /// <summary>
         /// A boolean flag indicating that the result is a success
         /// </summary>
         [DataMember]
         public bool Succeeded { get; set; }
 
-        /// <summary>
-        /// The reason of the failure
-        /// </summary>
-        [DataMember]
-        public TReason FailureReason { get; set; }
 
         /// <summary>
         /// The result message. If the result is a failure, this message is mandatory.
         /// </summary>
         [DataMember]
-        public string Message { get; set; }
+        public string Message { get; private set; }
 
         /// <summary>
         /// The Error level message
         /// </summary>
         [DataMember]
-        public EMessageLevel MessageLevel { get; set; }
-        
-        /// <summary>
-        /// The context in which the error occurred
-        /// </summary>
-        [DataMember]
-        public TContext FailureContext { get; set; }
+        public EMessageLevel MessageLevel { get; private set; } = EMessageLevel.None;
 
-        #endregion
-
-        #region properties ----------------------------------------------------
         /// <summary>
         /// A boolean flag indicating that the result is a failure
         /// </summary>
@@ -57,103 +42,103 @@ namespace DerECoach.Common.BaseTypes
             get { return !Succeeded; }
         }
 
+        /// <summary>
+        /// Set the message and the messageLevel
+        /// </summary>
+        /// <param name="message">the error message, may not be null or empty</param>
+        /// <param name="level">the message level, may not be EMessageLevel.None</param>
+        public void SetMessage(string message, EMessageLevel messageLevel = EMessageLevel.Info)
+        {
+            if (message.IsNullOrEmpty())
+                throw new ArgumentNullException("message");
+            if (messageLevel == EMessageLevel.None)
+                throw new ArgumentNullException("messageLevel");
+            Message = message;
+            MessageLevel = messageLevel;
+        }
+
+        /// <summary>
+        /// Clear the message and set the messageLevel to EMessageLevel.None
+        /// This is not allowed for Failure results
+        /// </summary>
+        public void ClearMessage()
+        {
+            if (Failed)
+                throw new NotSupportedException("Failure results must have a message and messageLevel");
+            Message = null;
+            MessageLevel = EMessageLevel.None;
+        }
+
+        /// <summary>
+        /// The context in which the error occurred
+        /// </summary>
+        [DataMember]
+        public TContext FailureContext { get; set; }
+
+        /// <summary>
+        /// The reason of the failure
+        /// </summary>
+        [DataMember]
+        public TReason FailureReason { get; set; }
         #endregion
 
         #region constructor ---------------------------------------------------
-
-        protected Result()
+        public ResultEx()
         {
-            Succeeded = true;
-            MessageLevel = EMessageLevel.None;
+            Succeeded = true;            
             FailureReason = default(TReason);
             FailureContext = default(TContext);
         }
-
-        #endregion
-
-        #region factory methods -----------------------------------------------
-        /// <summary>
-        /// Factory method to create a success Result
-        /// </summary>
-        /// <returns></returns>
-        public static Result<TReason, TContext> Success()
-        {
-            return new Result<TReason, TContext>();
-        }
-
-        /// <summary>
-        /// Factory method to create a success Result with message and messagelevel
-        /// </summary>
-        /// <returns></returns>
-        public static Result<TReason, TContext> Success(string message, EMessageLevel messageLevel)
-        {
-            return new Result<TReason, TContext>
-            {
-                Message = message,
-                MessageLevel = messageLevel
-            };
-        }
-
-        /// <summary>
-        /// Factory method to create a failure Result
-        /// </summary>
-        /// <returns></returns>
-        public static Result<TReason, TContext> Failure(string message)
-        {
-            return new Result<TReason, TContext>
-            {
-                Succeeded = false,
-                Message = message,
-                MessageLevel = EMessageLevel.Error
-            };
-        }
-
-        /// <summary>
-        /// Factory method to create a failure Result
-        /// </summary>
-        /// <returns></returns>
-        public static Result<TReason, TContext> Failure(TReason failureReason, string message)
-        {
-            return new Result<TReason, TContext>
-            {
-                Succeeded = false,
-                FailureReason = failureReason,
-                Message = message,
-                MessageLevel = EMessageLevel.Error
-            };
-        }
-
-        /// <summary>
-        /// Factory method to create a failure Result
-        /// </summary>
-        /// <returns></returns>
-        public static Result<TReason, TContext> Failure(TReason failureReason,
-            TContext failureContext, string message)
-        {
-            return new Result<TReason, TContext>
-            {
-                Succeeded = false,
-                FailureReason = failureReason,
-                FailureContext = failureContext,
-                Message = message,
-                MessageLevel = EMessageLevel.Error
-            };
-        }
-
         #endregion
 
         #region fluent methods ------------------------------------------------
         /// <summary>
-        /// Converts to a Result with Value, setting Value to the passed value.
+        /// Perform the provided Action if the result is Failed and return the result
+        /// </summary>
+        /// <param name="failureAction"></param>
+        /// <returns>this</returns>
+        [DebuggerStepThrough]
+        public IResultEx<TReason, TContext> OnFailure(Action<IResultEx<TReason, TContext>> failureAction)
+        {
+            if (!Succeeded) failureAction(this);
+            return this;
+        }
+
+        /// <summary>
+        /// Perform the provided Action if the result is Succeeded and return result
+        /// </summary>
+        /// <param name="successAction"></param>
+        /// <returns></returns>
+        [DebuggerStepThrough]
+        public IResultEx<TReason, TContext> OnSuccess(Action<IResultEx<TReason, TContext>> successAction)
+        {
+            if (Succeeded) successAction(this);
+            return this;
+        }
+
+        /// <summary>
+        /// Returns a new Result of the same type. 
+        /// </summary>
+        /// <param name="continueFunc"></param>
+        /// <returns></returns>
+        [DebuggerStepThrough]
+        public IResultEx<TReason, TContext> Continue(
+            Func<IResultEx<TReason, TContext>, IResultEx<TReason, TContext>> continueFunc)
+        {
+            return continueFunc(this);
+        }
+
+        /// <summary>
+        /// Converts to a ValueResult, assigning the passed value to Value
         /// All properties are preserved
         /// </summary>
         /// <typeparam name="TNew"></typeparam>
-        /// <param name="value"></param>
+        /// <param name="value">the new Value</param>
         /// <returns></returns>
         [DebuggerStepThrough]
-        public Result<TReason, TContext, TNew> Return<TNew>(TNew value)
+        public IValueResultEx<TReason, TContext, TNew> ConvertToValueResult<TNew>(TNew value)
         {
-            return new Result<TReason, TContext, TNew>
+            return new ValueResultEx<TReason, TContext, TNew>
             {
                 Succeeded = Succeeded,
                 FailureReason = FailureReason,
@@ -165,17 +150,17 @@ namespace DerECoach.Common.BaseTypes
         }
 
         /// <summary>
-        /// Convert to a Result with Value, setting the value using the conversionFunc
+        /// Convert to a ValueResult, setting the value using the conversionFunc
         /// All properties are preserved 
         /// </summary>
         /// <typeparam name="TNew"></typeparam>
         /// <param name="conversionFunc"></param>
         /// <returns></returns>
         [DebuggerStepThrough]
-        public Result<TReason, TContext, TNew> Return<TNew>(
-            Func<Result<TReason, TContext>, TNew> conversionFunc)
+        public IValueResultEx<TReason, TContext, TNew> ConvertToValueResult<TNew>(
+            Func<IResultEx<TReason, TContext>, TNew> conversionFunc)
         {
-            return new Result<TReason, TContext, TNew>
+            return new ValueResultEx<TReason, TContext, TNew>
             {
                 Succeeded = Succeeded,
                 FailureReason = FailureReason,
@@ -188,39 +173,21 @@ namespace DerECoach.Common.BaseTypes
 
         /// <summary>
         /// Returns a new Result. 
-        /// If Succeeded the return value of successFunc is used.
-        /// If Failed and failureFunc is set, the return value of failureFunc is used,
-        /// otherwise this is returned
+        /// If Succeeded the return value of successFunc is returned.
+        /// If Failed and failureFunc is set, the return value of failureFunc is returned,
+        /// otherwise the default Value of TNew is returned and all other properties are preserved
         /// </summary>
         /// <param name="successFunc"></param>
         /// <param name="failureFunc"></param>
         /// <returns></returns>
         [DebuggerStepThrough]
-        public Result<TReason, TContext> Continue(
-            Func<Result<TReason, TContext>> successFunc,
-            Func<Result<TReason, TContext>> failureFunc = null)
+        public IValueResultEx<TReason, TContext, TNew> ConvertToValueResult<TNew>(
+            Func<IValueResultEx<TReason, TContext, TNew>> successFunc,
+            Func<IValueResultEx<TReason, TContext, TNew>> failureFunc = null)
         {
-            return Succeeded ? successFunc() : failureFunc == null ? this : failureFunc();
-        }
-
-        /// <summary>
-        /// Returns a new Result with Value.
-        /// If Succeeded the Value is set to the return value of successFunc.
-        /// If Failed and failureFunc is set, the Value is set to return value of failureFunc,
-        /// otherwise Value is set to the default of TNew.
-        /// All other properties are preserved
-        /// </summary>
-        /// <param name="successFunc"></param>
-        /// <param name="failureFunc"></param>
-        /// <returns></returns>
-        [DebuggerStepThrough]
-        public Result<TReason, TContext, TNew> Continue<TNew>(
-            Func<TNew> successFunc,
-            Func<TNew> failureFunc = null)
-        {
-            return Succeeded
-                ? Return(successFunc())
-                : failureFunc == null ? Return(default(TNew)) : Return(failureFunc());
+            return Succeeded ?
+                successFunc() :
+                failureFunc == null ? ConvertToValueResult(default(TNew)) : failureFunc();
         }
 
         /// <summary>
@@ -233,11 +200,13 @@ namespace DerECoach.Common.BaseTypes
         /// <param name="failureFunc"></param>
         /// <returns></returns>
         [DebuggerStepThrough]
-        public Result<TReason, TContext, TNew> Continue<TNew>(
-            Func<Result<TReason, TContext, TNew>> successFunc,
-            Func<Result<TReason, TContext, TNew>> failureFunc = null)
+        public IValueResultEx<TReason, TContext, TNew> ConvertToValueResult<TNew>(
+            Func<IResultEx<TReason, TContext>, IValueResultEx<TReason, TContext, TNew>> successFunc,
+            Func<IResultEx<TReason, TContext>, IValueResultEx<TReason, TContext, TNew>> failureFunc = null)
         {
-            return Succeeded ? successFunc() : failureFunc == null ? Return(default(TNew)) : failureFunc();
+            return Succeeded ?
+                successFunc(this) :
+                failureFunc == null ? ConvertToValueResult(default(TNew)) : failureFunc(this);
         }
 
         /// <summary>
@@ -251,39 +220,364 @@ namespace DerECoach.Common.BaseTypes
         /// <param name="failureFunc"></param>
         /// <returns></returns>
         [DebuggerStepThrough]
-        public IEnumerable<Result<TReason, TContext, TNew>> Continue<TNew>(
-            Func<IEnumerable<Result<TReason, TContext, TNew>>> successFunc,
-            Func<IEnumerable<Result<TReason, TContext, TNew>>> failureFunc)
+        public IEnumerable<IValueResultEx<TReason, TContext, TNew>> ConvertToValueResults<TNew>(
+            Func<IEnumerable<IValueResultEx<TReason, TContext, TNew>>> successFunc,
+            Func<IEnumerable<IValueResultEx<TReason, TContext, TNew>>> failureFunc = null)
         {
-            return Succeeded ? successFunc() : failureFunc == null ? new[] {Return(default(TNew))} : failureFunc();
+            return Succeeded ?
+                successFunc() :
+                failureFunc == null ? new[] { ConvertToValueResult(default(TNew)) } : failureFunc();
         }
 
         /// <summary>
-        /// Perform the provided Action if the result is Failed
+        /// Returns an IEnumerable of ValueResults. 
+        /// If Succeeded the return value of successFunc is returned.
+        /// If Failed and failureFunc is set, the return value of failureFunc is returned,
+        /// otherwise an IEnumerable containing the default Value of TNew as only itemis returned 
+        /// and all other properties are preserved
         /// </summary>
-        /// <param name="failureAction"></param>
+        /// <param name="successFunc"></param>
+        /// <param name="failureFunc"></param>
         /// <returns></returns>
         [DebuggerStepThrough]
-        public Result<TReason, TContext> OnFailure(Action<Result<TReason, TContext>> failureAction)
+        public IEnumerable<IValueResultEx<TReason, TContext, TNew>> ConvertToValueResults<TNew>(
+            Func<IResultEx<TReason, TContext>, IEnumerable<IValueResultEx<TReason, TContext, TNew>>> conversionFunc)
+        {
+            return conversionFunc(this);
+        }
+        #endregion
+    }
+
+    [DataContract]
+    internal class Result<TReason> : ResultEx<TReason, string>, IResult<TReason>
+    {
+        #region constructor ---------------------------------------------------
+        public Result() : base()
+        {
+
+        }
+
+        #endregion       
+
+        #region fluent methods ------------------------------------------------
+        /// <summary>
+        /// Perform the provided Action if the result is Failed and return the result
+        /// </summary>
+        /// <param name="failureAction"></param>
+        /// <returns>this</returns>
+        [DebuggerStepThrough]
+        public IResult<TReason> OnFailure(Action<IResult<TReason>> failureAction)
         {
             if (!Succeeded) failureAction(this);
             return this;
         }
 
         /// <summary>
-        /// Perform the provided Action if the result is Succeeded
+        /// Perform the provided Action if the result is Succeeded and return result
         /// </summary>
         /// <param name="successAction"></param>
         /// <returns></returns>
         [DebuggerStepThrough]
-        public Result<TReason, TContext> OnSuccess(Action<Result<TReason, TContext>> successAction)
+        public IResult<TReason> OnSuccess(Action<IResult<TReason>> successAction)
         {
             if (Succeeded) successAction(this);
             return this;
         }
-        
+
+        /// <summary>
+        /// Returns a new Result of the same type. 
+        /// </summary>
+        /// <param name="continueFunc"></param>
+        /// <returns></returns>
+        [DebuggerStepThrough]
+        public IResult<TReason> Continue(
+            Func<IResult<TReason>, IResult<TReason>> continueFunc)
+        {
+            return continueFunc(this);
+        }
+
+        /// <summary>
+        /// Converts to a ValueResult, assigning the passed value to Value
+        /// All properties are preserved
+        /// </summary>
+        /// <typeparam name="TNew"></typeparam>
+        /// <param name="value">the new Value</param>
+        /// <returns></returns>
+        [DebuggerStepThrough]
+        public new IValueResult<TReason, TNew> ConvertToValueResult<TNew>(TNew value)
+        {
+            var result = new ValueResult<TReason, TNew>
+            {
+                Succeeded = Succeeded,
+                FailureReason = FailureReason,
+                Value = value
+            };
+            result.SetMessage(Message, MessageLevel);
+            return result;
+        }
+
+        /// <summary>
+        /// Convert to a ValueResult, setting the value using the conversionFunc
+        /// All properties are preserved 
+        /// </summary>
+        /// <typeparam name="TNew"></typeparam>
+        /// <param name="conversionFunc"></param>
+        /// <returns></returns>
+        [DebuggerStepThrough]
+        public IValueResult<TReason, TNew> ConvertToValueResult<TNew>(
+            Func<IResult<TReason>, TNew> conversionFunc)
+        {
+            var result = new ValueResult<TReason, TNew>
+            {
+                Succeeded = Succeeded,
+                FailureReason = FailureReason,
+                Value = conversionFunc(this)
+            };
+            result.SetMessage(Message, MessageLevel);
+            return result;
+        }
+
+        /// <summary>
+        /// Returns a new Result. 
+        /// If Succeeded the return value of successFunc is returned.
+        /// If Failed and failureFunc is set, the return value of failureFunc is returned,
+        /// otherwise the default Value of TNew is returned and all other properties are preserved
+        /// </summary>
+        /// <param name="successFunc"></param>
+        /// <param name="failureFunc"></param>
+        /// <returns></returns>
+        [DebuggerStepThrough]
+        public IValueResult<TReason, TNew> ConvertToValueResult<TNew>(
+            Func<IValueResult<TReason, TNew>> successFunc,
+            Func<IValueResult<TReason, TNew>> failureFunc = null)
+        {
+            return Succeeded ?
+                successFunc() :
+                failureFunc == null ? ConvertToValueResult(default(TNew)) : failureFunc();
+        }
+
+        /// <summary>
+        /// Returns a new Result. 
+        /// If Succeeded the return value of successFunc is returned.
+        /// If Failed and failureFunc is set, the return value of failureFunc is returned,
+        /// otherwise the default Value of TNew is returned and all other properties are preserved
+        /// </summary>
+        /// <param name="successFunc"></param>
+        /// <param name="failureFunc"></param>
+        /// <returns></returns>
+        [DebuggerStepThrough]
+        public IValueResult<TReason, TNew> ConvertToValueResult<TNew>(
+            Func<IResult<TReason>, IValueResult<TReason, TNew>> successFunc,
+            Func<IResult<TReason>, IValueResult<TReason, TNew>> failureFunc = null)
+        {
+            return Succeeded ?
+                successFunc(this) :
+                failureFunc == null ? ConvertToValueResult(default(TNew)) : failureFunc(this);
+        }
+
+        /// <summary>
+        /// Returns an IEnumerable of Results. 
+        /// If Succeeded the return value of successFunc is returned.
+        /// If Failed and failureFunc is set, the return value of failureFunc is returned,
+        /// otherwise an IEnumerable containing the default Value of TNew as only itemis returned 
+        /// and all other properties are preserved
+        /// </summary>
+        /// <param name="successFunc"></param>
+        /// <param name="failureFunc"></param>
+        /// <returns></returns>
+        [DebuggerStepThrough]
+        public IEnumerable<IValueResult<TReason, TNew>> ConvertToValueResults<TNew>(
+            Func<IEnumerable<IValueResult<TReason, TNew>>> successFunc,
+            Func<IEnumerable<IValueResult<TReason, TNew>>> failureFunc = null)
+        {
+            return Succeeded ?
+                successFunc() :
+                failureFunc == null ? new[] { ConvertToValueResult(default(TNew)) } : failureFunc();
+        }
+
+        /// <summary>
+        /// Returns an IEnumerable of ValueResults. 
+        /// If Succeeded the return value of successFunc is returned.
+        /// If Failed and failureFunc is set, the return value of failureFunc is returned,
+        /// otherwise an IEnumerable containing the default Value of TNew as only itemis returned 
+        /// and all other properties are preserved
+        /// </summary>
+        /// <param name="successFunc"></param>
+        /// <param name="failureFunc"></param>
+        /// <returns></returns>
+        [DebuggerStepThrough]
+        public IEnumerable<IValueResult<TReason, TNew>> ConvertToValueResults<TNew>(
+            Func<IResult<TReason>, IEnumerable<IValueResult<TReason, TNew>>> conversionFunc)
+        {
+            return conversionFunc(this);
+        }
         #endregion
     }
 
-    
+    [DataContract]
+    internal class Result : Result<int>, IResult
+    {
+
+        #region constructor ---------------------------------------------------
+        public Result() : base()
+        {
+
+        }
+
+        #endregion
+
+        #region fluent methods ------------------------------------------------
+        /// <summary>
+        /// Perform the provided Action if the result is Failed and return the result
+        /// </summary>
+        /// <param name="failureAction"></param>
+        /// <returns>this</returns>
+        [DebuggerStepThrough]
+        public IResult OnFailure(Action<IResult> failureAction)
+        {
+            if (!Succeeded) failureAction(this);
+            return this;
+        }
+
+        /// <summary>
+        /// Perform the provided Action if the result is Succeeded and return result
+        /// </summary>
+        /// <param name="successAction"></param>
+        /// <returns></returns>
+        [DebuggerStepThrough]
+        public IResult OnSuccess(Action<IResult> successAction)
+        {
+            if (Succeeded) successAction(this);
+            return this;
+        }
+
+        /// <summary>
+        /// Returns a new Result of the same type. 
+        /// </summary>
+        /// <param name="continueFunc"></param>
+        /// <returns></returns>
+        [DebuggerStepThrough]
+        public IResult Continue(
+            Func<IResult, IResult> continueFunc)
+        {
+            return continueFunc(this);
+        }
+
+        /// <summary>
+        /// Converts to a ValueResult, assigning the passed value to Value
+        /// All properties are preserved
+        /// </summary>
+        /// <typeparam name="TNew"></typeparam>
+        /// <param name="value">the new Value</param>
+        /// <returns></returns>
+        [DebuggerStepThrough]
+        public new IValueResult<TNew> ConvertToValueResult<TNew>(TNew value)
+        {
+            var result = new ValueResult<TNew>
+            {
+                Succeeded = Succeeded,
+                FailureReason = FailureReason,
+                Value = value
+            };
+            result.SetMessage(Message, MessageLevel);
+            return result;
+        }
+
+        /// <summary>
+        /// Convert to a ValueResult, setting the value using the conversionFunc
+        /// All properties are preserved 
+        /// </summary>
+        /// <typeparam name="TNew"></typeparam>
+        /// <param name="conversionFunc"></param>
+        /// <returns></returns>
+        [DebuggerStepThrough]
+        public IValueResult<TNew> ConvertToValueResult<TNew>(
+            Func<IResult, TNew> conversionFunc)
+        {
+            var result = new ValueResult<TNew>
+            {
+                Succeeded = Succeeded,
+                FailureReason = FailureReason,                
+                Value = conversionFunc(this)
+            };
+            result.SetMessage(Message, MessageLevel);
+            return result;
+        }
+
+        /// <summary>
+        /// Returns a new Result. 
+        /// If Succeeded the return value of successFunc is returned.
+        /// If Failed and failureFunc is set, the return value of failureFunc is returned,
+        /// otherwise the default Value of TNew is returned and all other properties are preserved
+        /// </summary>
+        /// <param name="successFunc"></param>
+        /// <param name="failureFunc"></param>
+        /// <returns></returns>
+        [DebuggerStepThrough]
+        public IValueResult<TNew> ConvertToValueResult<TNew>(
+            Func<IValueResult<TNew>> successFunc,
+            Func<IValueResult<TNew>> failureFunc = null)
+        {
+            return Succeeded ?
+                successFunc() :
+                failureFunc == null ? ConvertToValueResult(default(TNew)) : failureFunc();
+        }
+
+        /// <summary>
+        /// Returns a new Result. 
+        /// If Succeeded the return value of successFunc is returned.
+        /// If Failed and failureFunc is set, the return value of failureFunc is returned,
+        /// otherwise the default Value of TNew is returned and all other properties are preserved
+        /// </summary>
+        /// <param name="successFunc"></param>
+        /// <param name="failureFunc"></param>
+        /// <returns></returns>
+        [DebuggerStepThrough]
+        public IValueResult<TNew> ConvertToValueResult<TNew>(
+            Func<IResult, IValueResult<TNew>> successFunc,
+            Func<IResult, IValueResult<TNew>> failureFunc = null)
+        {
+            return Succeeded ?
+                successFunc(this) :
+                failureFunc == null ? ConvertToValueResult(default(TNew)) : failureFunc(this);
+        }
+
+        /// <summary>
+        /// Returns an IEnumerable of Results. 
+        /// If Succeeded the return value of successFunc is returned.
+        /// If Failed and failureFunc is set, the return value of failureFunc is returned,
+        /// otherwise an IEnumerable containing the default Value of TNew as only itemis returned 
+        /// and all other properties are preserved
+        /// </summary>
+        /// <param name="successFunc"></param>
+        /// <param name="failureFunc"></param>
+        /// <returns></returns>
+        [DebuggerStepThrough]
+        public IEnumerable<IValueResult<TNew>> ConvertToValueResults<TNew>(
+            Func<IEnumerable<IValueResult<TNew>>> successFunc,
+            Func<IEnumerable<IValueResult<TNew>>> failureFunc = null)
+        {
+            return Succeeded ?
+                successFunc() :
+                failureFunc == null ? new[] { ConvertToValueResult(default(TNew)) } : failureFunc();
+        }
+
+        /// <summary>
+        /// Returns an IEnumerable of ValueResults. 
+        /// If Succeeded the return value of successFunc is returned.
+        /// If Failed and failureFunc is set, the return value of failureFunc is returned,
+        /// otherwise an IEnumerable containing the default Value of TNew as only itemis returned 
+        /// and all other properties are preserved
+        /// </summary>
+        /// <param name="successFunc"></param>
+        /// <param name="failureFunc"></param>
+        /// <returns></returns>
+        [DebuggerStepThrough]
+        public IEnumerable<IValueResult<TNew>> ConvertToValueResults<TNew>(
+            Func<IResult, IEnumerable<IValueResult<TNew>>> conversionFunc)
+        {
+            return conversionFunc(this);
+        }
+        #endregion
+    }
 }

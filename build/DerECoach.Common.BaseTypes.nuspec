@@ -11,6 +11,7 @@
     <description>Common basetypes and a lot of extension methods</description>
     <summary>Common basetypes and a lot of extension methods</summary>
     <language>en-US</language>
+    <copyright>Copyright 2018</copyright>
   </metadata>
   <files>
     <file src="..\output\build\readme.txt" target="" />
