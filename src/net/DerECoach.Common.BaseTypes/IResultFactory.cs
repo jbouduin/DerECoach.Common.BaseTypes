@@ -22,7 +22,7 @@
         /// <summary>
         /// create a failure Result
         /// </summary>
-        /// /// <param name="message">the message, may not be null</param>
+        /// <param name="message">the message, may not be null</param>
         /// <param name="messageLevel">the message level, defaults to Error, may not be None</param>
         /// <returns></returns>
         IResult Failure(
@@ -41,6 +41,8 @@
         /// create a success Result with message and messagelevel,
         /// without specifying the reason
         /// </summary>
+        /// <param name="message">the message</param>
+        /// <param name="messageLevel">the message level, defaults to Error, may not be None</param>
         /// <returns></returns>
         IResult<TReason> Success<TReason>(
             string message, 
@@ -111,8 +113,7 @@
             EMessageLevel messageLevel = EMessageLevel.Error);
 
         /// <summary>
-        /// create a failure Result with message, messageLevel and Reason
-        /// but no context
+        /// create a failure Result with message, messageLevel, Reason and context        
         /// </summary>
         /// <param name="failureReason">the reason for the failure</param>
         /// <param name="failureContext">the failure context</param>

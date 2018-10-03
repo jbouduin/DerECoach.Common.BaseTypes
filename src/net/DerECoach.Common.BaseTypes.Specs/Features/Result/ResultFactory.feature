@@ -1,4 +1,4 @@
-﻿Feature: ResultFactory.Result
+﻿Feature: ResultFactory
 	Using the Resultfactory Interface for creating results
 
 Background: 

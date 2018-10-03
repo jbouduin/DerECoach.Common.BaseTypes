@@ -57,19 +57,29 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Result\ResultFactory.feature.cs">
+    <Compile Include="Features\Result\ResultFactory.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ResultFactory.feature</DependentUpon>
     </Compile>
+    <Compile Include="Features\Result\ValueResultFactory.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ValueResultFactory.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Result\ValueResultFactorySteps.cs" />
     <Compile Include="Steps\Result\ResultFactorySteps.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-    <None Include="Result\ResultFactory.feature">
+    <None Include="Features\Result\ResultFactory.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>ResultFactory.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Features\Result\ValueResultFactory.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>ValueResultFactory.feature.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>

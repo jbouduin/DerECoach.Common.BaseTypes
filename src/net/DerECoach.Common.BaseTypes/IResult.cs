@@ -174,7 +174,7 @@ namespace DerECoach.Common.BaseTypes
         /// <typeparam name="TNew"></typeparam>
         /// <param name="value">the new Value</param>
         /// <returns></returns>
-        IValueResult<TReason, TNew> ConvertToValueResult<TNew>(TNew value);
+        IValueResult<TNew, TReason> ConvertToValueResult<TNew>(TNew value);
 
         /// <summary>
         /// Convert to a ValueResult, setting the value using the conversionFunc
@@ -183,7 +183,7 @@ namespace DerECoach.Common.BaseTypes
         /// <typeparam name="TNew"></typeparam>
         /// <param name="conversionFunc"></param>
         /// <returns></returns>
-        IValueResult<TReason, TNew> ConvertToValueResult<TNew>(
+        IValueResult<TNew, TReason> ConvertToValueResult<TNew>(
             Func<IResult<TReason>, TNew> conversionFunc);
 
         /// <summary>
@@ -195,9 +195,9 @@ namespace DerECoach.Common.BaseTypes
         /// <param name="successFunc"></param>
         /// <param name="failureFunc"></param>
         /// <returns></returns>
-        IValueResult<TReason, TNew> ConvertToValueResult<TNew>(
-            Func<IValueResult<TReason, TNew>> successFunc,
-            Func<IValueResult<TReason, TNew>> failureFunc = null);
+        IValueResult<TNew, TReason> ConvertToValueResult<TNew>(
+            Func<IValueResult<TNew, TReason>> successFunc,
+            Func<IValueResult<TNew, TReason>> failureFunc = null);
 
         /// <summary>
         /// Returns a new Result. 
@@ -208,9 +208,9 @@ namespace DerECoach.Common.BaseTypes
         /// <param name="successFunc"></param>
         /// <param name="failureFunc"></param>
         /// <returns></returns>
-        IValueResult<TReason, TNew> ConvertToValueResult<TNew>(
-            Func<IResult<TReason>, IValueResult<TReason, TNew>> successFunc,
-            Func<IResult<TReason>, IValueResult<TReason, TNew>> failureFunc = null);
+        IValueResult<TNew, TReason> ConvertToValueResult<TNew>(
+            Func<IResult<TReason>, IValueResult<TNew, TReason>> successFunc,
+            Func<IResult<TReason>, IValueResult<TNew, TReason>> failureFunc = null);
 
         /// <summary>
         /// Returns an IEnumerable of Results. 
@@ -222,9 +222,9 @@ namespace DerECoach.Common.BaseTypes
         /// <param name="successFunc"></param>
         /// <param name="failureFunc"></param>
         /// <returns></returns>
-        IEnumerable<IValueResult<TReason, TNew>> ConvertToValueResults<TNew>(
-            Func<IEnumerable<IValueResult<TReason, TNew>>> successFunc,
-            Func<IEnumerable<IValueResult<TReason, TNew>>> failureFunc = null);
+        IEnumerable<IValueResult<TNew, TReason>> ConvertToValueResults<TNew>(
+            Func<IEnumerable<IValueResult<TNew, TReason>>> successFunc,
+            Func<IEnumerable<IValueResult<TNew, TReason>>> failureFunc = null);
 
         /// <summary>
         /// Returns an IEnumerable of ValueResults. 
@@ -236,8 +236,8 @@ namespace DerECoach.Common.BaseTypes
         /// <param name="successFunc"></param>
         /// <param name="failureFunc"></param>
         /// <returns></returns>
-        IEnumerable<IValueResult<TReason, TNew>> ConvertToValueResults<TNew>(
-            Func<IResult<TReason>, IEnumerable<IValueResult<TReason, TNew>>> conversionFunc);
+        IEnumerable<IValueResult<TNew, TReason>> ConvertToValueResults<TNew>(
+            Func<IResult<TReason>, IEnumerable<IValueResult<TNew, TReason>>> conversionFunc);
     }
 
     public interface IResultEx<TReason, TContext>: IReasonResult<TReason>
@@ -276,7 +276,7 @@ namespace DerECoach.Common.BaseTypes
         /// <typeparam name="TNew"></typeparam>
         /// <param name="value">the new Value</param>
         /// <returns></returns>
-        IValueResultEx<TReason, TContext, TNew> ConvertToValueResult<TNew>(TNew value);
+        IValueResultEx<TNew, TReason, TContext> ConvertToValueResult<TNew>(TNew value);
 
         /// <summary>
         /// Convert to a ValueResult, setting the value using the conversionFunc
@@ -285,7 +285,7 @@ namespace DerECoach.Common.BaseTypes
         /// <typeparam name="TNew"></typeparam>
         /// <param name="conversionFunc"></param>
         /// <returns></returns>
-        IValueResultEx<TReason, TContext, TNew> ConvertToValueResult<TNew>(
+        IValueResultEx<TNew, TReason, TContext> ConvertToValueResult<TNew>(
             Func<IResultEx<TReason, TContext>, TNew> conversionFunc);
 
         /// <summary>
@@ -297,9 +297,9 @@ namespace DerECoach.Common.BaseTypes
         /// <param name="successFunc"></param>
         /// <param name="failureFunc"></param>
         /// <returns></returns>
-        IValueResultEx<TReason, TContext, TNew> ConvertToValueResult<TNew>(
-            Func<IValueResultEx<TReason, TContext, TNew>> successFunc,
-            Func<IValueResultEx<TReason, TContext, TNew>> failureFunc = null);
+        IValueResultEx<TNew, TReason, TContext> ConvertToValueResult<TNew>(
+            Func<IValueResultEx<TNew, TReason, TContext>> successFunc,
+            Func<IValueResultEx<TNew, TReason, TContext>> failureFunc = null);
 
         /// <summary>
         /// Returns a new Result. 
@@ -310,9 +310,9 @@ namespace DerECoach.Common.BaseTypes
         /// <param name="successFunc"></param>
         /// <param name="failureFunc"></param>
         /// <returns></returns>
-        IValueResultEx<TReason, TContext, TNew> ConvertToValueResult<TNew>(
-            Func<IResultEx<TReason, TContext>, IValueResultEx<TReason, TContext, TNew>> successFunc,
-            Func<IResultEx<TReason, TContext>, IValueResultEx<TReason, TContext, TNew>> failureFunc = null);
+        IValueResultEx<TNew, TReason, TContext> ConvertToValueResult<TNew>(
+            Func<IResultEx<TReason, TContext>, IValueResultEx<TNew, TReason, TContext>> successFunc,
+            Func<IResultEx<TReason, TContext>, IValueResultEx<TNew, TReason, TContext>> failureFunc = null);
 
         /// <summary>
         /// Returns an IEnumerable of Results. 
@@ -324,9 +324,9 @@ namespace DerECoach.Common.BaseTypes
         /// <param name="successFunc"></param>
         /// <param name="failureFunc"></param>
         /// <returns></returns>
-        IEnumerable<IValueResultEx<TReason, TContext, TNew>> ConvertToValueResults<TNew>(
-            Func<IEnumerable<IValueResultEx<TReason, TContext, TNew>>> successFunc,
-            Func<IEnumerable<IValueResultEx<TReason, TContext, TNew>>> failureFunc = null);
+        IEnumerable<IValueResultEx<TNew, TReason, TContext>> ConvertToValueResults<TNew>(
+            Func<IEnumerable<IValueResultEx<TNew, TReason, TContext>>> successFunc,
+            Func<IEnumerable<IValueResultEx<TNew, TReason, TContext>>> failureFunc = null);
 
         /// <summary>
         /// Returns an IEnumerable of ValueResults. 
@@ -338,8 +338,8 @@ namespace DerECoach.Common.BaseTypes
         /// <param name="successFunc"></param>
         /// <param name="failureFunc"></param>
         /// <returns></returns>
-        IEnumerable<IValueResultEx<TReason, TContext, TNew>> ConvertToValueResults<TNew>(
-            Func<IResultEx<TReason, TContext>, IEnumerable<IValueResultEx<TReason, TContext, TNew>>> conversionFunc);
+        IEnumerable<IValueResultEx<TNew, TReason, TContext>> ConvertToValueResults<TNew>(
+            Func<IResultEx<TReason, TContext>, IEnumerable<IValueResultEx<TNew, TReason, TContext>>> conversionFunc);
         
     }
 }

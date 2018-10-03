@@ -136,9 +136,9 @@ namespace DerECoach.Common.BaseTypes
         /// <param name="value">the new Value</param>
         /// <returns></returns>
         [DebuggerStepThrough]
-        public IValueResultEx<TReason, TContext, TNew> ConvertToValueResult<TNew>(TNew value)
+        public IValueResultEx<TNew, TReason, TContext> ConvertToValueResult<TNew>(TNew value)
         {
-            return new ValueResultEx<TReason, TContext, TNew>
+            return new ValueResultEx<TNew, TReason, TContext>
             {
                 Succeeded = Succeeded,
                 FailureReason = FailureReason,
@@ -157,10 +157,10 @@ namespace DerECoach.Common.BaseTypes
         /// <param name="conversionFunc"></param>
         /// <returns></returns>
         [DebuggerStepThrough]
-        public IValueResultEx<TReason, TContext, TNew> ConvertToValueResult<TNew>(
+        public IValueResultEx<TNew, TReason, TContext> ConvertToValueResult<TNew>(
             Func<IResultEx<TReason, TContext>, TNew> conversionFunc)
         {
-            return new ValueResultEx<TReason, TContext, TNew>
+            return new ValueResultEx<TNew, TReason, TContext>
             {
                 Succeeded = Succeeded,
                 FailureReason = FailureReason,
@@ -181,9 +181,9 @@ namespace DerECoach.Common.BaseTypes
         /// <param name="failureFunc"></param>
         /// <returns></returns>
         [DebuggerStepThrough]
-        public IValueResultEx<TReason, TContext, TNew> ConvertToValueResult<TNew>(
-            Func<IValueResultEx<TReason, TContext, TNew>> successFunc,
-            Func<IValueResultEx<TReason, TContext, TNew>> failureFunc = null)
+        public IValueResultEx<TNew, TReason, TContext> ConvertToValueResult<TNew>(
+            Func<IValueResultEx<TNew, TReason, TContext>> successFunc,
+            Func<IValueResultEx<TNew, TReason, TContext>> failureFunc = null)
         {
             return Succeeded ?
                 successFunc() :
@@ -200,9 +200,9 @@ namespace DerECoach.Common.BaseTypes
         /// <param name="failureFunc"></param>
         /// <returns></returns>
         [DebuggerStepThrough]
-        public IValueResultEx<TReason, TContext, TNew> ConvertToValueResult<TNew>(
-            Func<IResultEx<TReason, TContext>, IValueResultEx<TReason, TContext, TNew>> successFunc,
-            Func<IResultEx<TReason, TContext>, IValueResultEx<TReason, TContext, TNew>> failureFunc = null)
+        public IValueResultEx<TNew, TReason, TContext> ConvertToValueResult<TNew>(
+            Func<IResultEx<TReason, TContext>, IValueResultEx<TNew, TReason, TContext>> successFunc,
+            Func<IResultEx<TReason, TContext>, IValueResultEx<TNew, TReason, TContext>> failureFunc = null)
         {
             return Succeeded ?
                 successFunc(this) :
@@ -220,9 +220,9 @@ namespace DerECoach.Common.BaseTypes
         /// <param name="failureFunc"></param>
         /// <returns></returns>
         [DebuggerStepThrough]
-        public IEnumerable<IValueResultEx<TReason, TContext, TNew>> ConvertToValueResults<TNew>(
-            Func<IEnumerable<IValueResultEx<TReason, TContext, TNew>>> successFunc,
-            Func<IEnumerable<IValueResultEx<TReason, TContext, TNew>>> failureFunc = null)
+        public IEnumerable<IValueResultEx<TNew, TReason, TContext>> ConvertToValueResults<TNew>(
+            Func<IEnumerable<IValueResultEx<TNew, TReason, TContext>>> successFunc,
+            Func<IEnumerable<IValueResultEx<TNew, TReason, TContext>>> failureFunc = null)
         {
             return Succeeded ?
                 successFunc() :
@@ -240,8 +240,8 @@ namespace DerECoach.Common.BaseTypes
         /// <param name="failureFunc"></param>
         /// <returns></returns>
         [DebuggerStepThrough]
-        public IEnumerable<IValueResultEx<TReason, TContext, TNew>> ConvertToValueResults<TNew>(
-            Func<IResultEx<TReason, TContext>, IEnumerable<IValueResultEx<TReason, TContext, TNew>>> conversionFunc)
+        public IEnumerable<IValueResultEx<TNew, TReason, TContext>> ConvertToValueResults<TNew>(
+            Func<IResultEx<TReason, TContext>, IEnumerable<IValueResultEx<TNew, TReason, TContext>>> conversionFunc)
         {
             return conversionFunc(this);
         }
@@ -304,9 +304,9 @@ namespace DerECoach.Common.BaseTypes
         /// <param name="value">the new Value</param>
         /// <returns></returns>
         [DebuggerStepThrough]
-        public new IValueResult<TReason, TNew> ConvertToValueResult<TNew>(TNew value)
+        public new IValueResult<TNew, TReason> ConvertToValueResult<TNew>(TNew value)
         {
-            var result = new ValueResult<TReason, TNew>
+            var result = new ValueResult<TNew, TReason>
             {
                 Succeeded = Succeeded,
                 FailureReason = FailureReason,
@@ -324,10 +324,10 @@ namespace DerECoach.Common.BaseTypes
         /// <param name="conversionFunc"></param>
         /// <returns></returns>
         [DebuggerStepThrough]
-        public IValueResult<TReason, TNew> ConvertToValueResult<TNew>(
+        public IValueResult<TNew, TReason> ConvertToValueResult<TNew>(
             Func<IResult<TReason>, TNew> conversionFunc)
         {
-            var result = new ValueResult<TReason, TNew>
+            var result = new ValueResult<TNew, TReason>
             {
                 Succeeded = Succeeded,
                 FailureReason = FailureReason,
@@ -347,9 +347,9 @@ namespace DerECoach.Common.BaseTypes
         /// <param name="failureFunc"></param>
         /// <returns></returns>
         [DebuggerStepThrough]
-        public IValueResult<TReason, TNew> ConvertToValueResult<TNew>(
-            Func<IValueResult<TReason, TNew>> successFunc,
-            Func<IValueResult<TReason, TNew>> failureFunc = null)
+        public IValueResult<TNew, TReason> ConvertToValueResult<TNew>(
+            Func<IValueResult<TNew, TReason>> successFunc,
+            Func<IValueResult<TNew, TReason>> failureFunc = null)
         {
             return Succeeded ?
                 successFunc() :
@@ -366,9 +366,9 @@ namespace DerECoach.Common.BaseTypes
         /// <param name="failureFunc"></param>
         /// <returns></returns>
         [DebuggerStepThrough]
-        public IValueResult<TReason, TNew> ConvertToValueResult<TNew>(
-            Func<IResult<TReason>, IValueResult<TReason, TNew>> successFunc,
-            Func<IResult<TReason>, IValueResult<TReason, TNew>> failureFunc = null)
+        public IValueResult<TNew, TReason> ConvertToValueResult<TNew>(
+            Func<IResult<TReason>, IValueResult<TNew, TReason>> successFunc,
+            Func<IResult<TReason>, IValueResult<TNew, TReason>> failureFunc = null)
         {
             return Succeeded ?
                 successFunc(this) :
@@ -386,9 +386,9 @@ namespace DerECoach.Common.BaseTypes
         /// <param name="failureFunc"></param>
         /// <returns></returns>
         [DebuggerStepThrough]
-        public IEnumerable<IValueResult<TReason, TNew>> ConvertToValueResults<TNew>(
-            Func<IEnumerable<IValueResult<TReason, TNew>>> successFunc,
-            Func<IEnumerable<IValueResult<TReason, TNew>>> failureFunc = null)
+        public IEnumerable<IValueResult<TNew, TReason>> ConvertToValueResults<TNew>(
+            Func<IEnumerable<IValueResult<TNew, TReason>>> successFunc,
+            Func<IEnumerable<IValueResult<TNew, TReason>>> failureFunc = null)
         {
             return Succeeded ?
                 successFunc() :
@@ -406,8 +406,8 @@ namespace DerECoach.Common.BaseTypes
         /// <param name="failureFunc"></param>
         /// <returns></returns>
         [DebuggerStepThrough]
-        public IEnumerable<IValueResult<TReason, TNew>> ConvertToValueResults<TNew>(
-            Func<IResult<TReason>, IEnumerable<IValueResult<TReason, TNew>>> conversionFunc)
+        public IEnumerable<IValueResult<TNew, TReason>> ConvertToValueResults<TNew>(
+            Func<IResult<TReason>, IEnumerable<IValueResult<TNew, TReason>>> conversionFunc)
         {
             return conversionFunc(this);
         }

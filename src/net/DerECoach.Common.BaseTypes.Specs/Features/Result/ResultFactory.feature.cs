@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace DerECoach.Common.BaseTypes.Specs.Result
+namespace DerECoach.Common.BaseTypes.Specs.Features.Result
 {
     using TechTalk.SpecFlow;
     
@@ -18,8 +18,8 @@ namespace DerECoach.Common.BaseTypes.Specs.Result
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.4.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
-    [NUnit.Framework.DescriptionAttribute("ResultFactory.Result")]
-    public partial class ResultFactory_ResultFeature
+    [NUnit.Framework.DescriptionAttribute("ResultFactory")]
+    public partial class ResultFactoryFeature
     {
         
         private TechTalk.SpecFlow.ITestRunner testRunner;
@@ -31,7 +31,7 @@ namespace DerECoach.Common.BaseTypes.Specs.Result
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "ResultFactory.Result", "\tUsing the Resultfactory Interface for creating results", ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "ResultFactory", "\tUsing the Resultfactory Interface for creating results", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
