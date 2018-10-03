@@ -68,6 +68,18 @@
     <Compile Include="..\..\shared\DerECoach.Common.BaseTypes\IntExtensions.cs">
       <Link>IntExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\..\shared\DerECoach.Common.BaseTypes\IResult.cs">
+      <Link>IResult.cs</Link>
+    </Compile>
+    <Compile Include="..\..\shared\DerECoach.Common.BaseTypes\IResultFactory.cs">
+      <Link>IResultFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\..\shared\DerECoach.Common.BaseTypes\IValueResult.cs">
+      <Link>IValueResult.cs</Link>
+    </Compile>
+    <Compile Include="..\..\shared\DerECoach.Common.BaseTypes\IValueResultFactory.cs">
+      <Link>IValueResultFactory.cs</Link>
+    </Compile>
     <Compile Include="..\..\shared\DerECoach.Common.BaseTypes\NotifyPropertyChangedExtensions.cs">
       <Link>NotifyPropertyChangedExtensions.cs</Link>
     </Compile>
@@ -86,6 +98,9 @@
     <Compile Include="..\..\shared\DerECoach.Common.BaseTypes\Result.cs">
       <Link>Result.cs</Link>
     </Compile>
+    <Compile Include="..\..\shared\DerECoach.Common.BaseTypes\ResultFactory.cs">
+      <Link>ResultFactory.cs</Link>
+    </Compile>
     <Compile Include="..\..\shared\DerECoach.Common.BaseTypes\StringExtensions.cs">
       <Link>StringExtensions.cs</Link>
     </Compile>
@@ -95,14 +110,13 @@
     <Compile Include="..\..\shared\DerECoach.Common.BaseTypes\TypeExtensions.cs">
       <Link>TypeExtensions.cs</Link>
     </Compile>
-    <Compile Include="IResult.cs" />
-    <Compile Include="IResultFactory.cs" />
-    <Compile Include="IValueResult.cs" />
-    <Compile Include="IValueResultFactory.cs" />
+    <Compile Include="..\..\shared\DerECoach.Common.BaseTypes\ValueResult.cs">
+      <Link>ValueResult.cs</Link>
+    </Compile>
+    <Compile Include="..\..\shared\DerECoach.Common.BaseTypes\ValueResultFactory.cs">
+      <Link>ValueResultFactory.cs</Link>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ResultFactory.cs" />
-    <Compile Include="ValueResult.cs" />
-    <Compile Include="ValueResultFactory.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

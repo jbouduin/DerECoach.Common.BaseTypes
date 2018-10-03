@@ -173,7 +173,7 @@ namespace DerECoach.Common.BaseTypes
         [DebuggerStepThrough]
         public IValueResult<TValue, TReason> OnFailure(
             Action<IValueResult<TValue, TReason>> failureAction)
-        {
+        {            
             if (!Succeeded) failureAction(this);
             return this;
         }
